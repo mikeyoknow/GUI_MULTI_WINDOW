@@ -1,5 +1,4 @@
 import tkinter as tk
-from tkinter import ttk
 import tkinter.font as tkfont
 from tkinter import messagebox
 
@@ -12,50 +11,61 @@ class RotationApp:
         self.root.geometry("700x400")
 
         # Change the background color
-        self.root.configure(bg="#f0f0f0")
+        self.root.configure(bg="#F03939")
 
         # Initial Variables
         self.staff_list = []
         self.current_index = 0
 
         # Create left and right frames
-        self.left_frame = ttk.Frame(self.root)
-        self.right_frame = ttk.Frame(self.root)
+        self.left_frame = tk.Frame(self.root)
+        self.right_frame = tk.Frame(self.root)
+
         self.left_frame.pack(side="left", fill="both", expand=True, padx=20, pady=20)
         self.right_frame.pack(side="right", fill="both", expand=True, padx=20, pady=20)
 
         # Listbox to display staff names
         self.staff_display = tk.Listbox(self.left_frame, font=("Arial", 12), width=40, height=10)
         self.staff_display.grid(row=0, column=0, columnspan=4, pady=20)
+        self.staff_display.configure(justify="center")
 
         # Entry field and button to add staff names
-        self.name_entry = ttk.Entry(self.left_frame, font=("Arial", 12), width=40)
+        self.name_entry = tk.Entry(self.left_frame, font=("Arial", 12), width=40)
         self.name_entry.grid(row=1, column=0, columnspan=4, pady=10)
-        self.add_button = ttk.Button(self.left_frame, text="Add Staff", command=self.add_staff)
-        self.add_button.grid(row=2, column=0, pady=10)
+        self.name_entry.configure(justify="center", width=20)
 
-        self.lunch_button = ttk.Button(self.left_frame, text="Go to Lunch", command=self.go_to_lunch)
+        self.add_button = tk.Button(self.left_frame, text="Add Staff", command=self.add_staff)
+        self.add_button.configure(height=2, width=10)
+        self.add_button.grid(row=2, column=0, pady=10, padx=10)
+
+        self.lunch_button = tk.Button(self.left_frame, text="Go to Lunch", command=self.go_to_lunch)
         self.lunch_button.grid(row=2, column=1, pady=10)
+        self.lunch_button.configure(height=2, width=10)
 
-        self.back_button = ttk.Button(self.left_frame, text="Back from Lunch", command=self.back_from_lunch)
+        self.back_button = tk.Button(self.left_frame, text="Back from Lunch", command=self.back_from_lunch)
         self.back_button.grid(row=2, column=2, pady=10)
+        self.back_button.configure(height=2, width=10)
 
-        self.del_button = ttk.Button(self.left_frame, text="Delete Selected", command=self.del_staff)
+        self.del_button = tk.Button(self.left_frame, text="Delete Selected", command=self.del_staff)
         self.del_button.grid(row=3, column=2, pady=10)
+        self.del_button.configure(height=2, width=10)
 
-        self.up_button = ttk.Button(self.left_frame, text="Move Up", command=self.move_up)
+        self.up_button = tk.Button(self.left_frame, text="Move Up", command=self.move_up)
         self.up_button.grid(row=3, column=0, pady=10)
+        self.up_button.configure(height=2, width=10)
 
-        self.down_button = ttk.Button(self.left_frame, text="Move Down", command=self.move_down)
+        self.down_button = tk.Button(self.left_frame, text="Move Down", command=self.move_down)
         self.down_button.grid(row=3, column=1, pady=10)
+        self.down_button.configure(height=2, width=10)
 
         # Label to display rotation
-        self.rotation_display = tk.Label(self.right_frame, text="??????????????", font=("Arial", 24, "bold"))
+        self.rotation_display = tk.Label(self.right_frame, text="", font=("Arial", 24, "bold"))
         self.rotation_display.pack(pady=20)
 
         # Button to rotate staff names
-        self.next_button = ttk.Button(self.right_frame, text="Next", command=self.next_staff)
-        self.next_button.pack(pady=100)
+        self.next_button = tk.Button(self.right_frame, text="Next", command=self.next_staff)
+        self.next_button.pack(side="bottom", pady=20)
+        self.next_button.configure(height=2, width=10)
 
     def add_staff(self):
         new_name = self.name_entry.get()
