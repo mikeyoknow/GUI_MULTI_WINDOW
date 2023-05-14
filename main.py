@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 from tkinter import messagebox
 
 class RotationApp:
@@ -6,42 +7,48 @@ class RotationApp:
         self.root = root
         self.root.title("Staff Rotation")
 
-        #Initial Variables
+        # Set the window size
+        self.root.geometry("600x480")
+
+        # Change the background color
+        self.root.configure(bg="#f0f0f0")
+
+        # Initial Variables
         self.staff_list = []
         self.current_index = 0
 
-        #Create left and right frame panels
-        self.left_frame = tk.Frame(self.root)
-        self.right_frame = tk.Frame(self.root)
-        self.left_frame.pack(side="left", fill="both", expand=True)
-        self.right_frame.pack(side="right", fill="both", expand=True)
+        # Create left and right frames
+        self.left_frame = ttk.Frame(self.root)
+        self.right_frame = ttk.Frame(self.root)
+        self.left_frame.pack(side="left", fill="both", expand=True, padx=20, pady=20)
+        self.right_frame.pack(side="right", fill="both", expand=True, padx=20, pady=20)
 
-        #Listbox to displat staff name
-        self.staff_display = tk.Listbox(self.left_frame)
+        # Listbox to display staff names
+        self.staff_display = tk.Listbox(self.left_frame, font=("Arial", 12))
         self.staff_display.pack(pady=20)
 
-        #Entry field and button to add staff names
-        self.name_entry = tk.Entry(self.left_frame)
-        self.name_entry.pack()
-        self.add_button = tk.Button(self.left_frame, text="Add Staff", command=self.add_staff)
-        self.add_button.pack()
-        
-        #Buttons to delete names
-        self.del_button = tk.Button(self.left_frame, text="Delete Selected", command=self.del_staff)
-        self.del_button.pack()
+        # Entry field and button to add staff names
+        self.name_entry = ttk.Entry(self.left_frame, font=("Arial", 12))
+        self.name_entry.pack(pady=10)
+        self.add_button = ttk.Button(self.left_frame, text="Add Staff", command=self.add_staff)
+        self.add_button.pack(pady=10)
 
-        #Buttons to move staff up and down
-        self.up_button = tk.Button(self.left_frame, text="Move up", command=self.move_up)
-        self.up_button.pack()
-        self.down_button = tk.Button(self.left_frame, text="Move down", command=self.move_down)
-        self.down_button.pack()
+        # Button to delete selected staff name
+        self.del_button = ttk.Button(self.left_frame, text="Delete Selected", command=self.del_staff)
+        self.del_button.pack(pady=10)
 
-        #Label to display rotation
-        self.rotation_display = tk.Button(self.right_frame, text="")
+        # Buttons to move staff up and down
+        self.up_button = ttk.Button(self.left_frame, text="Move Up", command=self.move_up)
+        self.up_button.pack(pady=10)
+        self.down_button = ttk.Button(self.left_frame, text="Move Down", command=self.move_down)
+        self.down_button.pack(pady=10)
+
+        # Label to display rotation
+        self.rotation_display = ttk.Label(self.right_frame, text="", font=("Arial", 24, "bold"))
         self.rotation_display.pack(pady=20)
 
-        #Button to rotate staff names
-        self.next_button = tk.Button(self.right_frame, text="Next", command=self.next_staff)
+        # Button to rotate staff names
+        self.next_button = ttk.Button(self.right_frame, text="Next", command=self.next_staff)
         self.next_button.pack(pady=100)
 
     def add_staff(self):
@@ -68,12 +75,12 @@ class RotationApp:
         selected_name = self.staff_display.curselection()
         if selected_name and selected_name[0] > 0:
             index = selected_name[0]
-            self.staff[index], self.staff_list[index - 1] = self.staff_list[index - 1], self.staff_list[index]
+            self.staff_list[index], self.staff_list[index - 1] = self.staff_list[index - 1], self.staff_list[index]
             self.staff_display.delete(index)
             self.staff_display.insert(index - 1, self.staff_list[index - 1])
             self.staff_display.select_set(index - 1)
             self.update_rotation_display()
-    
+
     def move_down(self):
         selected_name = self.staff_display.curselection()
         if selected_name and selected_name[0] < len(self.staff_list) - 1:
@@ -83,6 +90,13 @@ class RotationApp:
             self.staff_display.insert(index + 1, self.staff_list[index + 1])
             self.staff_display.select
 
+    def update_rotation_display(self):
+        if self.staff_list:
+            # Set the new text with a large and bold font
+            self.rotation_display.config(text=self.staff_list[self.current_index], font=("Arial", 24, "bold"))
+        else:
+            self.rotation_display.config(text="")
+            
 root = tk.Tk()
 app = RotationApp(root)
 root.mainloop()
