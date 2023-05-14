@@ -1,5 +1,5 @@
 # GUI_MULTI_WINDOW
-In here, I will try to make my first multi window GUI in python
+I will try to make my first multi window GUI in python and develope the GUI as I go
 Later, I learned that I can use this newly unlocked skill to create a rotation system for my workplace
 
 # What I've learned:
