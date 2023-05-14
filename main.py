@@ -33,6 +33,12 @@ class RotationApp:
         self.add_button = ttk.Button(self.left_frame, text="Add Staff", command=self.add_staff)
         self.add_button.pack(pady=10)
 
+        # Buttons to indicate staff going for lunch and returning
+        self.lunch_button = ttk.Button(self.left_frame, text="Go to Lunch", command=self.go_to_lunch)
+        self.lunch_button.pack(pady=10)
+        self.back_button = ttk.Button(self.left_frame, text="Back from Lunch", command=self.back_from_lunch)
+        self.back_button.pack(pady=10)
+
         # Button to delete selected staff name
         self.del_button = ttk.Button(self.left_frame, text="Delete Selected", command=self.del_staff)
         self.del_button.pack(pady=10)
@@ -49,7 +55,7 @@ class RotationApp:
 
         # Button to rotate staff names
         self.next_button = ttk.Button(self.right_frame, text="Next", command=self.next_staff)
-        self.next_button.pack(pady=100)
+        self.next_button.pack(pady=200)
 
     def add_staff(self):
         new_name = self.name_entry.get()
@@ -96,6 +102,28 @@ class RotationApp:
             self.rotation_display.config(text=self.staff_list[self.current_index], font=("Arial", 24, "bold"))
         else:
             self.rotation_display.config(text="")
+
+    def go_to_lunch(self):
+        selected_name = self.staff_display.curselection()
+        if selected_name:
+            index = selected_name[0]
+            if not self.staff_list[index].endswith("(On Lunch)"):
+                self.staff_list[index] += " (On Lunch)"
+                self.staff_display.delete(index)
+                self.staff_display.insert(index, self.staff_list[index])
+                self.staff_display.select_set(index)
+                self.update_rotation_display()
+
+    def back_from_lunch(self):
+        selected_name = self.staff_display.curselection()
+        if selected_name:
+            index = selected_name[0]
+            if self.staff_list[index].endswith("(On Lunch)"):
+                self.staff_list[index] = self.staff_list[index][:-10]  # Remove " (On Lunch)"
+                self.staff_display.delete(index)
+                self.staff_display.insert(index, self.staff_list[index])
+                self.staff_display.select_set(index)
+                self.update_rotation_display()
             
 root = tk.Tk()
 app = RotationApp(root)
