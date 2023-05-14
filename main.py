@@ -63,3 +63,26 @@ class RotationApp:
         if self.staff_list:
             self.current_index = (self.current_index + 1) % len(self.staff_list)
             self.update_rotation_display()
+
+    def move_up(self):
+        selected_name = self.staff_display.curselection()
+        if selected_name and selected_name[0] > 0:
+            index = selected_name[0]
+            self.staff[index], self.staff_list[index - 1] = self.staff_list[index - 1], self.staff_list[index]
+            self.staff_display.delete(index)
+            self.staff_display.insert(index - 1, self.staff_list[index - 1])
+            self.staff_display.select_set(index - 1)
+            self.update_rotation_display()
+    
+    def move_down(self):
+        selected_name = self.staff_display.curselection()
+        if selected_name and selected_name[0] < len(self.staff_list) - 1:
+            index = selected_name[0]
+            self.staff_list[index], self.staff_list[index + 1] = self.staff_list[index + 1], self.staff_list[index]
+            self.staff_display.delete(index)
+            self.staff_display.insert(index + 1, self.staff_list[index + 1])
+            self.staff_display.select
+
+root = tk.Tk()
+app = RotationApp(root)
+root.mainloop()
